@@ -10,52 +10,79 @@
 
     <title>Bank of Choi</title>
   </head>
-
-  <!-- index.html will be home page default for now -->
   <body>
 
-    <!-- container for message box -->
-
+    <!-- container showing boundary of container-fluid -->
     <div class="container-fluid" style="background-color: rgb(255,0,255)">
       <p>stuff</p>
     </div>
-    <!-- container for buttons -->
+    <!-- container allows for "gutter space" on the sides-->
     <div class="container">
       <div class="row" style="background-color: rgb(0,255,255)">
         <div class="col-md-12 display-4">
-          <p id="messageBox">message box header</p>
+          <p id="messageBox">Welcome to Bank of Choi</p>
         </div>
       </div>
       <div class="row">
 
-        <div class="nav flex-column nav-pills col-md-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <!-- Start of Display Tabs -->
+        <div class="nav flex-column nav-pills col-md-2" id="v-pills-tab" role="tablist" aria-orientation="vertical" onclick="changeMessage(event)">
           <a class="nav-link active" id="withdraw-tab" data-toggle="pill" href="#withdraw" role="tab" aria-controls="withdraw" aria-selected="true">Withdraw</a>
           <a class="nav-link" id="deposit-tab" data-toggle="pill" href="#deposit" role="tab" aria-controls="deposit" aria-selected="false">Deposit</a>
-          <a class="nav-link" id="balance-tab" data-toggle="pill" href="#balance" role="tab" aria-controls="balance" aria-selected="false">Check Balances</a>
+          <a class="nav-link" id="balance-tab" data-toggle="pill" href="#balance" onclick="getBalance()" role="tab" aria-controls="balance" aria-selected="false">Check Balances</a>
           <a class="nav-link" id="transfer-tab" data-toggle="pill" href="#transfer" role="tab" aria-controls="transfer" aria-selected="false">Transfer Money</a>
           <a class="nav-link" id="history-tab" data-toggle="pill" href="#history" role="tab" aria-controls="history" aria-selected="false">Transaction History</a>
         </div>
-
+        <!-- End of Display Tabs -->
+        <!-- Start of Display Panel -->
         <div class="tab-content  col-md-10" id="v-pills-tabContent">
+          <!-- Withdraw Panel -->
           <div class="tab-pane fade show active" id="withdraw" role="tabpanel" aria-labelledby="withdraw">
-            <h1 class="display-4"></h1>
+            <p class="lead">How much would you like to withdraw</p>
+            <input type="text" id="withdrawAmount">
+            <input type="button" value="Withdraw Amount" onclick="withdraw()">
           </div>
-          <div class="tab-pane fade" id="deposit" role="tabpanel" aria-labelledby="deposit">...</div>
-          <div class="tab-pane fade" id="balance" role="tabpanel" aria-labelledby="balance">...</div>
-          <div class="tab-pane fade" id="transfer" role="tabpanel" aria-labelledby="transfer">...</div>
-          <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history">...</div>
+          <!-- End of Withdraw -->
+          <!-- Deposit Panel -->
+          <div class="tab-pane fade" id="deposit" role="tabpanel" aria-labelledby="deposit">
 
+          </div>
+          <!-- End of Deposit -->
+          <!-- Balance Panel -->
+          <div class="tab-pane fade" id="balance" role="tabpanel" aria-labelledby="balance">
+            <p class="lead">This is your current balance</p>
+            <p>Checking Account 1</p>
+            <input type="text" id="checkingAccount1" readonly="readonly">
+          </div>
+          <!-- End of Balance -->
+          <!-- Transfer Panel -->
+          <div class="tab-pane fade" id="transfer" role="tabpanel" aria-labelledby="transfer">
+
+          </div>
+          <!-- End of Transfer -->
+
+          <!-- History Panel -->
+          <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history">
+          </div>
+          <!-- End of History -->
         </div>
+        <!-- End of Display Panel -->
       </div>
-      <!-- container for display -->
+    </div>
+    <!-- End of main panels -->
+
+      <!-- container showing boundary of container-fluid -->
       <div class="container-fluid" style="background-color: rgb(255,0,255)">
         <p>stuff</p>
       </div>
 
-    <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- Custom javascript after -->
+    <script src="js/account.js"></script>
+    <script src="js/display.js"></script>
+
   </body>
 </html>

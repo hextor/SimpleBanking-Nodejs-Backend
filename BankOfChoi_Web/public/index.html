@@ -7,74 +7,151 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css"/>
 
     <title>Bank of Choi</title>
   </head>
   <body>
 
     <!-- container showing boundary of container-fluid -->
-    <div class="container-fluid" style="background-color: rgb(255,0,255)">
-      <p>stuff</p>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">Bank of Choi</h1>
+          <br/>
+          <br/>
+        </div>
     </div>
     <!-- container allows for "gutter space" on the sides-->
     <div class="container">
-      <div class="row" style="background-color: rgb(0,255,255)">
-        <div class="col-md-12 display-4">
-          <p id="messageBox">Welcome to Bank of Choi</p>
-        </div>
-      </div>
+      <br/>
       <div class="row">
-
         <!-- Start of Display Tabs -->
-        <div class="nav flex-column nav-pills col-md-2" id="v-pills-tab" role="tablist" aria-orientation="vertical" onclick="changeMessage(event)">
-          <a class="nav-link active" id="withdraw-tab" data-toggle="pill" href="#withdraw" role="tab" aria-controls="withdraw" aria-selected="true">Withdraw</a>
-          <a class="nav-link" id="deposit-tab" data-toggle="pill" href="#deposit" role="tab" aria-controls="deposit" aria-selected="false">Deposit</a>
-          <a class="nav-link" id="balance-tab" data-toggle="pill" href="#balance" onclick="getBalance()" role="tab" aria-controls="balance" aria-selected="false">Check Balances</a>
-          <a class="nav-link" id="transfer-tab" data-toggle="pill" href="#transfer" role="tab" aria-controls="transfer" aria-selected="false">Transfer Money</a>
-          <a class="nav-link" id="history-tab" data-toggle="pill" href="#history" role="tab" aria-controls="history" aria-selected="false">Transaction History</a>
+        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+          <a class="nav-link btn btn-outline-info" id="withdraw-tab" data-toggle="pill" href="#withdraw" role="tab" aria-controls="withdraw" aria-selected="true">Withdraw</a>
+          <a class="nav-link btn btn-outline-info" id="deposit-tab" data-toggle="pill" href="#deposit" role="tab" aria-controls="deposit" aria-selected="false">Deposit</a>
+          <a class="nav-link btn btn-outline-info" id="balance-tab" data-toggle="pill" href="#balance" onclick="getBalance()" role="tab" aria-controls="balance" aria-selected="false">Check Balances</a>
+          <a class="nav-link btn btn-outline-info" id="transfer-tab" data-toggle="pill" href="#transfer" role="tab" aria-controls="transfer" aria-selected="false">Transfer Money</a>
+          <a class="nav-link btn btn-outline-info" id="history-tab" data-toggle="pill" href="#history" onclick="changeHistory()" role="tab" aria-controls="history" aria-selected="false">Transaction History</a>
         </div>
         <!-- End of Display Tabs -->
+
         <!-- Start of Display Panel -->
         <div class="tab-content  col-md-10" id="v-pills-tabContent">
           <!-- Withdraw Panel -->
           <div class="tab-pane fade show active" id="withdraw" role="tabpanel" aria-labelledby="withdraw">
+            <div class="card text-center">
+              <div class="card-header">
+                <p id="messageBox" class="display-4">Withdraw Money</p>
+              </div>
+          <div class="card-body">
+            <p class="lead">Choose an account</p>
+            <select class="form-control" id="selectWithdrawAccount">
+                  <option value="checkingAcc1">Checking Account 1</option>
+                  <option value="savingsAcc1">Savings Account 1</option>
+                  <option value="savingsAcc2">Savings Account 2</option>
+              </select>
             <p class="lead">How much would you like to withdraw</p>
-            <input type="text" id="withdrawAmount">
-            <input type="button" value="Withdraw Amount" onclick="withdraw()">
+            <input class="form-control" type="text" id="withdrawAmount">
+            <br/>
+            <input class="btn btn-primary" type="button" value="Withdraw Amount" onclick="withdraw()">
           </div>
+          </div>
+        </div>
           <!-- End of Withdraw -->
+
           <!-- Deposit Panel -->
           <div class="tab-pane fade" id="deposit" role="tabpanel" aria-labelledby="deposit">
-
+            <div class="card text-center">
+              <div class="card-header">
+                <p id="messageBox" class="display-4">Deposit Money</p>
+              </div>
+              <div class="card-body">
+            <p class="lead">Choose an account</p>
+            <select class="form-control" id="selectDeposityAccount">
+                  <option value="checkingAcc1">Checking Account 1</option>
+                  <option value="savingsAcc1">Savings Account 1</option>
+                  <option value="savingsAcc2">Savings Account 2</option>
+              </select>
+            <p class="lead">How much would you like to withdraw</p>
+            <input type="text" class="form-control" id="depositAmount">
+            <br/>
+            <input type="button" class="btn btn-primary" value="Deposit Amount" onclick="deposit()">
+          </div>
+          </div>
           </div>
           <!-- End of Deposit -->
+
           <!-- Balance Panel -->
           <div class="tab-pane fade" id="balance" role="tabpanel" aria-labelledby="balance">
+            <div class="card text-center">
+              <div class="card-header">
+                <p id="messageBox" class="display-4">Check Balances</p>
+              </div>
+              <div class="card-body">
             <p class="lead">This is your current balance</p>
             <p>Checking Account 1</p>
-            <input type="text" id="checkingAccount1" readonly="readonly">
+            <input class="form-control-plaintext form-control-lg" type="text" id="checkCheckingAccount1" readonly="readonly">
+            <p>Savings Account 1</p>
+            <input class="form-control-plaintext form-control-lg" type="text" id="checkSavingsAccount1" readonly="readonly">
+            <p>Savings Account 2</p>
+            <input class="form-control-plaintext form-control-lg" type="text" id="checkSavingsAccount2" readonly="readonly">
           </div>
+        </div>
+      </div>
           <!-- End of Balance -->
+
           <!-- Transfer Panel -->
           <div class="tab-pane fade" id="transfer" role="tabpanel" aria-labelledby="transfer">
+            <div class="card text-center">
+              <div class="card-header">
+                <p id="messageBox" class="display-4">Transfer Money</p>
+              </div>
+              <div class="card-body">
+                <p class="lead">Select an account:</p>
+                <select class="form-control" id="selectPullAccount">
+                      <option value="checkingAcc1">Checking Account 1</option>
+                      <option value="savingsAcc1">Savings Account 1</option>
+                      <option value="savingsAcc2">Savings Account 2</option>
+                  </select>
+                <p class="lead">Select the account you want to transfer money to:</p>
+                <select class="form-control" id="selectPushAccount">
+                      <option value="checkingAcc1">Checking Account 1</option>
+                      <option value="savingsAcc1">Savings Account 1</option>
+                      <option value="savingsAcc2">Savings Account 2</option>
+                </select>
+                <p class="lead">How much would you like to transfer?</p>
+                <input type="text" class="form-control" id="transferAmount">
+                <br/>
+                <input type="button" class="btn btn-primary" value="Transfer Amount" onclick="transfer()">
+              </div>
+            </div>
+            </div>
 
-          </div>
           <!-- End of Transfer -->
-
           <!-- History Panel -->
           <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history">
-          </div>
+              <div class="card text-center">
+                <div class="card-header">
+                  <p id="messageBox" class="display-4">Transaction History</p>
+                </div>
+                <div class="card-body">
+                    <div class="container-fluid" id="historyList">
+                    </div>
+                  </div>
+                </div>
           <!-- End of History -->
-        </div>
+              </div>
         <!-- End of Display Panel -->
-      </div>
+          </div>
+      <br/>
+
     </div>
     <!-- End of main panels -->
-
-      <!-- container showing boundary of container-fluid -->
-      <div class="container-fluid" style="background-color: rgb(255,0,255)">
-        <p>stuff</p>
-      </div>
+      <footer class="fixed-bottom">
+        <div class="container">
+          <span class="text-muted">Place sticky footer content here.</span>
+        </div>
+      </footer>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

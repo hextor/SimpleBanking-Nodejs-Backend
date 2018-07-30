@@ -1,0 +1,16 @@
+body {
+    background-color: #f6f6f6;
+}
+.card-header{
+   background-color: #b1c8d3;
+}
+/*url("https://source.unsplash.com/-xJAb5-NJSQ/1600x900")*/
+.jumbotron {
+  background-image: url("https://source.unsplash.com/mVpZLcD_F6k/1700x1200");
+  background-position: -50px -250px;
+  margin-bottom: 0;
+}
+
+footer {
+  background-color: #ede2dc;
+}

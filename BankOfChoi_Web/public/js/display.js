@@ -92,7 +92,7 @@ function getInfo(){
   var user = $("#loginUsername").val();
   var pass = $("#loginPassword").val();
   $.ajax({
-    url: 'http://localhost:3000/login',
+    url: 'http://localhost:3000/api/login',
     type: 'GET',
     data: { username : user, password : pass},
     dataType: 'json',

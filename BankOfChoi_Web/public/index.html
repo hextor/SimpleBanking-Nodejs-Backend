@@ -13,6 +13,27 @@
   </head>
   <body>
 
+    <div class="modal hide fade" id="modal-login" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Welcome back!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" id="loginUsername" placeholder="Username">
+        <br/>
+        <input type="text" class="form-control" id="loginPassword" placeholder="Password">
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary text-center" onclick="getInfo()">Log in</button>
+      </div>
+    </div>
+  </div>
+    </div>
+
     <!-- container showing boundary of container-fluid -->
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
@@ -22,6 +43,7 @@
         </div>
     </div>
     <!-- container allows for "gutter space" on the sides-->
+
     <div class="container">
       <br/>
       <div class="row">
@@ -29,9 +51,9 @@
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
           <a class="nav-link btn btn-outline-info" id="withdraw-tab" data-toggle="pill" href="#withdraw" role="tab" aria-controls="withdraw" aria-selected="true">Withdraw</a>
           <a class="nav-link btn btn-outline-info" id="deposit-tab" data-toggle="pill" href="#deposit" role="tab" aria-controls="deposit" aria-selected="false">Deposit</a>
-          <a class="nav-link btn btn-outline-info" id="balance-tab" data-toggle="pill" href="#balance" onclick="getBalance()" role="tab" aria-controls="balance" aria-selected="false">Check Balances</a>
+          <a class="nav-link btn btn-outline-info" id="balance-tab" data-toggle="pill" href="#balance" role="tab" aria-controls="balance" aria-selected="false">Check Balances</a>
           <a class="nav-link btn btn-outline-info" id="transfer-tab" data-toggle="pill" href="#transfer" role="tab" aria-controls="transfer" aria-selected="false">Transfer Money</a>
-          <a class="nav-link btn btn-outline-info" id="history-tab" data-toggle="pill" href="#history" onclick="changeHistory()" role="tab" aria-controls="history" aria-selected="false">Transaction History</a>
+          <a class="nav-link btn btn-outline-info" id="history-tab" data-toggle="pill" href="#history" role="tab" aria-controls="history" aria-selected="false">Transaction History</a>
         </div>
         <!-- End of Display Tabs -->
 
@@ -46,9 +68,7 @@
           <div class="card-body">
             <p class="lead">Choose an account</p>
             <select class="form-control" id="selectWithdrawAccount">
-                  <option value="checkingAcc1">Checking Account 1</option>
-                  <option value="savingsAcc1">Savings Account 1</option>
-                  <option value="savingsAcc2">Savings Account 2</option>
+                  <!-- populated by viewSelect() -->
               </select>
             <p class="lead">How much would you like to withdraw</p>
             <input class="form-control" type="text" id="withdrawAmount">
@@ -67,10 +87,8 @@
               </div>
               <div class="card-body">
             <p class="lead">Choose an account</p>
-            <select class="form-control" id="selectDeposityAccount">
-                  <option value="checkingAcc1">Checking Account 1</option>
-                  <option value="savingsAcc1">Savings Account 1</option>
-                  <option value="savingsAcc2">Savings Account 2</option>
+            <select class="form-control" id="selectDepositAccount">
+                <!-- populated by viewSelect() -->
               </select>
             <p class="lead">How much would you like to withdraw</p>
             <input type="text" class="form-control" id="depositAmount">
@@ -88,14 +106,11 @@
                 <p id="messageBox" class="display-4">Check Balances</p>
               </div>
               <div class="card-body">
-            <p class="lead">This is your current balance</p>
-            <p>Checking Account 1</p>
-            <input class="form-control-plaintext form-control-lg" type="text" id="checkCheckingAccount1" readonly="readonly">
-            <p>Savings Account 1</p>
-            <input class="form-control-plaintext form-control-lg" type="text" id="checkSavingsAccount1" readonly="readonly">
-            <p>Savings Account 2</p>
-            <input class="form-control-plaintext form-control-lg" type="text" id="checkSavingsAccount2" readonly="readonly">
-          </div>
+                <p class="lead">This is your current balance</p>
+                <div id="viewBalance">
+                  <!-- populated by viewBalance() -->
+                </div>
+              </div>
         </div>
       </div>
           <!-- End of Balance -->
@@ -109,15 +124,11 @@
               <div class="card-body">
                 <p class="lead">Select an account:</p>
                 <select class="form-control" id="selectPullAccount">
-                      <option value="checkingAcc1">Checking Account 1</option>
-                      <option value="savingsAcc1">Savings Account 1</option>
-                      <option value="savingsAcc2">Savings Account 2</option>
+                    <!-- populated by viewSelect() -->
                   </select>
                 <p class="lead">Select the account you want to transfer money to:</p>
                 <select class="form-control" id="selectPushAccount">
-                      <option value="checkingAcc1">Checking Account 1</option>
-                      <option value="savingsAcc1">Savings Account 1</option>
-                      <option value="savingsAcc2">Savings Account 2</option>
+                    <!-- populated by viewSelect() -->
                 </select>
                 <p class="lead">How much would you like to transfer?</p>
                 <input type="text" class="form-control" id="transferAmount">
@@ -130,31 +141,34 @@
           <!-- End of Transfer -->
           <!-- History Panel -->
           <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history">
-              <div class="card text-center">
-                <div class="card-header">
-                  <p id="messageBox" class="display-4">Transaction History</p>
-                </div>
-                <div class="card-body">
-                    <div class="container-fluid" id="historyList">
-                    </div>
+            <div class="card text-center">
+              <div class="card-header">
+                <p id="messageBox" class="display-4">Transaction History</p>
+              </div>
+              <div class="card-body">
+                  <div class="container-fluid" id="historyList">
+                    <!-- populated by viewHistory() -->
                   </div>
                 </div>
-          <!-- End of History -->
               </div>
+          <!-- End of History -->
+            </div>
         <!-- End of Display Panel -->
           </div>
       <br/>
 
     </div>
     <!-- End of main panels -->
-      <footer class="fixed-bottom">
-        <div class="container text-center">
-          <span class="text-muted">Created by the members of the James Choi Fan Club.</span>
-        </div>
-      </footer>
+    <br/>
+    <br/>
+    <footer class="fixed-bottom">
+    <div class="container text-center">
+      <span class="text-muted">Created by the members of the James Choi Fan Club.</span>
+    </div>
+    </footer>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Custom javascript after -->

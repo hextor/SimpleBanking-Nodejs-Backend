@@ -1,9 +1,9 @@
-// Waits for everything to load before we start populating fields
-// test account object exists in page since 'account.js' loaded first
-//TODO: Dynamic Select once it's linked up?
-// $( document ).ready(function() {
-//
-// });
+//DISPLAY DONE!
+
+// As soon as the html page is loaded launch modal (doesn't wait for images i think)
+$( document ).ready(function() {
+  $("#modal-login").modal('show');
+});
 
 // In the start of the display tabs, theres an 'onclick' attribute with the function
 // changeMessage(event)
@@ -20,14 +20,91 @@ function changeMessage(e){
   $("#messageBox").text(e.target.text);
 }
 
-function changeHistory(){
-  for(var i = Object.keys(account.transactionNum).length-1; i > -1; i--){
+function viewSelect(records){
+  for(var i = 0; i < records.length; i++){
+    if(i == 0){
+      $("#selectWithdrawAccount").append(
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking</option>"
+      );
+      $("#selectDepositAccount").append(
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking</option>"
+      );
+      $("#selectPullAccount").append(
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking</option>"
+      );
+      $("#selectPushAccount").append(
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking</option>"
+      );
+    }
+    else{
+      $("#selectWithdrawAccount").append(
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +"</option>"
+      );
+      $("#selectDepositAccount").append(
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +"</option>"
+      );
+      $("#selectPullAccount").append(
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +"</option>"
+      );
+      $("#selectPushAccount").append(
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +"</option>"
+      );
+    }
+  }
+}
+function viewHistory(history){
+  for(var i = history.length - 1; i > -1; i--){
     $("#historyList").append(
-      "<div class='row'>" +
-      "<div class='col-md-4'>" + account.transactionNum[i] + "</div>" +
-      "<div class='col-md-4'>" + account.transactionName[i] + "</div>" +
-      "<div class='col-md-4'>" + account.transactionAmount[i] + "</div>" +
-      "</div><hr/>"
+    "<div class='row'>" +
+    "<div class='col-md-2'>" + history[i].CUST_ACCT_NO + "</div>" +
+    "<div class='col-md-4'>" + history[i].TRANS_NAME + "</div>" +
+    "<div class='col-md-3'>" + history[i].TRANS_DATE + "</div>" +
+    "<div class='col-md-3'>" + history[i].AMOUNT + "$</div>" +
+    "</div><hr/>"
     );
   }
+}
+
+function viewBalance(records){
+  for(var i = 0; i < records.length; i++){
+    if(i == 0){
+      $("#viewBalance").append(
+      "<div class='row text-center'>" +
+      "<p class='lead col-lg-4'>Checking</p>" +
+      "<p class='lead col-lg-4'>" + records[i].CUST_ACCT_NO + "</p>" +
+      "<p class='lead col-lg-4'>$" + records[i].BALANCE + "</p>" +
+      "</div><hr/>"
+      );
+    }
+    else{
+      $("#viewBalance").append(
+      "<div class='row text-center'>" +
+      "<p class='lead col-lg-4'> Savings "+ i + " </p>" +
+      "<p class='lead col-lg-4'>" + records[i].CUST_ACCT_NO + "</p>" +
+      "<p class='lead col-lg-4'>$" + records[i].BALANCE + "</p>" +
+      "</div><hr/>"
+      );
+    }
+  }
+}
+
+function getInfo(){
+  var user = $("#loginUsername").val();
+  var pass = $("#loginPassword").val();
+  $.ajax({
+    url: 'http://localhost:3000/login',
+    type: 'GET',
+    data: { username : user, password : pass},
+    dataType: 'json',
+    success: (res) => {
+      console.log(res);
+      console.log(res.records);
+
+      viewSelect(res.records);
+      viewHistory(res.history);
+      viewBalance(res.records);
+
+      $("#modal-login").modal("hide");
+    }
+  });
 }

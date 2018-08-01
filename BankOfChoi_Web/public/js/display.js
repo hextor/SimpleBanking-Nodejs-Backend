@@ -1,9 +1,4 @@
-//DISPLAY DONE!
 
-// As soon as the html page is loaded launch modal (doesn't wait for images i think)
-$( document ).ready(function() {
-  $("#modal-login").modal('show');
-});
 
 // In the start of the display tabs, theres an 'onclick' attribute with the function
 // changeMessage(event)
@@ -21,6 +16,10 @@ function changeMessage(e){
 }
 
 function viewSelect(records){
+  $("#selectWithdrawAccount").empty();
+  $("#selectDepositAccount").empty();
+  $("#selectPullAccount").empty();
+  $("#selectPushAccount").empty();
   for(var i = 0; i < records.length; i++){
     if(i == 0){
       $("#selectWithdrawAccount").append(
@@ -53,6 +52,7 @@ function viewSelect(records){
   }
 }
 function viewHistory(history){
+  $("#historyList").empty();
   for(var i = history.length - 1; i > -1; i--){
     $("#historyList").append(
     "<div class='row'>" +
@@ -66,6 +66,7 @@ function viewHistory(history){
 }
 
 function viewBalance(records){
+  $("#viewBalance").empty();
   for(var i = 0; i < records.length; i++){
     if(i == 0){
       $("#viewBalance").append(
@@ -89,22 +90,29 @@ function viewBalance(records){
 }
 
 function getInfo(){
-  var user = $("#loginUsername").val();
+  usrname = $("#loginUsername").val();
   var pass = $("#loginPassword").val();
   $.ajax({
     url: 'http://localhost:3000/api/login',
     type: 'GET',
-    data: { username : user, password : pass},
+    data: { username : usrname, password : pass},
     dataType: 'json',
     success: (res) => {
-      console.log(res);
-      console.log(res.records);
+      if(res.check == false){
+        $("#modal-warning").show();
+        $("#loginUsername").addClass("is-invalid");
+        $("#loginPassword").addClass("is-invalid");
+      }
+      else{
+        usracct = res.acct;
+        // console.log(res);
+        viewSelect(res.records);
+        viewHistory(res.history);
+        viewBalance(res.records);
 
-      viewSelect(res.records);
-      viewHistory(res.history);
-      viewBalance(res.records);
-
-      $("#modal-login").modal("hide");
+        $("#modal-login").modal("hide");
+      }
     }
   });
+
 }

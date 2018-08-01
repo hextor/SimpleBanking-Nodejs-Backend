@@ -17,15 +17,13 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Welcome back!</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h5 class="modal-title col-lg-12 text-center" id="exampleModalLongTitle">Welcome back!</h5>
       </div>
       <div class="modal-body">
         <input type="text" class="form-control" id="loginUsername" placeholder="Username">
         <br/>
-        <input type="text" class="form-control" id="loginPassword" placeholder="Password">
+        <input type="text" class="form-control" id="loginPassword" placeholder="Password" >
+        <p class="small text-danger" id="modal-warning">* Username and/or password is incorrect</p>
       </div>
       <div class="modal-footer justify-content-center">
         <button type="button" class="btn btn-primary text-center" onclick="getInfo()">Log in</button>
@@ -61,8 +59,8 @@
         <div class="tab-content  col-md-10" id="v-pills-tabContent">
           <!-- Withdraw Panel -->
           <div class="tab-pane fade show active" id="withdraw" role="tabpanel" aria-labelledby="withdraw">
-            <div class="card text-center">
-              <div class="card-header">
+            <div class="card">
+              <div class="card-header  text-center">
                 <p id="messageBox" class="display-4">Withdraw Money</p>
               </div>
           <div class="card-body">
@@ -72,8 +70,11 @@
               </select>
             <p class="lead">How much would you like to withdraw</p>
             <input class="form-control" type="text" id="withdrawAmount">
+            <p class="small text-danger" id="danger-withdraw">* Please enter a positive value</p>
             <br/>
-            <input class="btn btn-primary" type="button" value="Withdraw Amount" onclick="withdraw()">
+            <div class="text-center">
+              <input class="btn btn-primary" type="button" value="Withdraw Amount" onclick="withdraw()">
+            </div>
           </div>
           </div>
         </div>
@@ -81,19 +82,21 @@
 
           <!-- Deposit Panel -->
           <div class="tab-pane fade" id="deposit" role="tabpanel" aria-labelledby="deposit">
-            <div class="card text-center">
-              <div class="card-header">
+            <div class="card">
+              <div class="card-header text-center">
                 <p id="messageBox" class="display-4">Deposit Money</p>
               </div>
               <div class="card-body">
-            <p class="lead">Choose an account</p>
+            <p class="lead">Choose an account:</p>
             <select class="form-control" id="selectDepositAccount">
                 <!-- populated by viewSelect() -->
               </select>
-            <p class="lead">How much would you like to withdraw</p>
+            <p class="lead">How much would you like to withdraw:</p>
             <input type="text" class="form-control" id="depositAmount">
-            <br/>
-            <input type="button" class="btn btn-primary" value="Deposit Amount" onclick="deposit()">
+            <p class="small text-danger" id="danger-deposit">* Please enter a positive value</p>
+            <div class="text-center">
+              <input type="button" class="btn btn-primary" value="Deposit Amount" onclick="deposit()">
+            </div>
           </div>
           </div>
           </div>
@@ -117,23 +120,27 @@
 
           <!-- Transfer Panel -->
           <div class="tab-pane fade" id="transfer" role="tabpanel" aria-labelledby="transfer">
-            <div class="card text-center">
-              <div class="card-header">
+            <div class="card">
+              <div class="card-header text-center">
                 <p id="messageBox" class="display-4">Transfer Money</p>
               </div>
               <div class="card-body">
-                <p class="lead">Select an account:</p>
+                <p class="lead">From:</p>
                 <select class="form-control" id="selectPullAccount">
                     <!-- populated by viewSelect() -->
                   </select>
-                <p class="lead">Select the account you want to transfer money to:</p>
+                <p class="lead">To:</p>
                 <select class="form-control" id="selectPushAccount">
                     <!-- populated by viewSelect() -->
                 </select>
+                <p class="small text-danger" id="danger-transfer-account">* Can not transfer money to the same account </p>
                 <p class="lead">How much would you like to transfer?</p>
                 <input type="text" class="form-control" id="transferAmount">
+                <p class="small text-danger" id="danger-transfer-amount">* Please enter a positive value </p>
                 <br/>
+                  <div class="text-center">
                 <input type="button" class="btn btn-primary" value="Transfer Amount" onclick="transfer()">
+                </div>
               </div>
             </div>
             </div>
@@ -172,8 +179,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Custom javascript after -->
-    <script src="js/account.js"></script>
     <script src="js/display.js"></script>
+    <script src="js/account.js"></script>
 
   </body>
 </html>

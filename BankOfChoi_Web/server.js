@@ -43,6 +43,7 @@ app.get('/api/login', (req, res) =>{
 
   function failCallback(){
     console.log("Reset everything and suck it up xd");
+    res.send({check : false});
   }
 
   function infoCallback(name, acct){
@@ -83,24 +84,85 @@ app.post('/api/withdraw', (req, res) =>{
   var amount_ = req.body.amount;
   var date = moment().format('LLL');  // July 31, 2018 12:51 AM
   // console.log(req);
-   console.log(account_ + ' ' + amount_);
+   // console.log(account_ + ' ' + amount_);
     db.serialize(function(){
-      let query4 = 'UPDATE ACCOUNTS SET BALANCE = BALANCE - "' + amount_ + '" WHERE CUST_ACCT_NO = "' + account_+ '"; '+
-        'INSERT INTO TRANSACTIONS (ACCOUNT, TRANS_NAME, TRANS_DATE, AMOUNT, FLAG) VALUES (\'' + account_+ '\', \'ATM_WITHDRAW\', \'' + date + '\', \'' + amount_+'\', \'0\');';
-        console.log(query4);
-      db.run(query4,  function(err, row){
+      var query4 = 'UPDATE ACCOUNTS SET BALANCE = BALANCE - ' + amount_ + ' WHERE CUST_ACCT_NO = "' + account_+ '"; '+
+        'INSERT INTO TRANSACTIONS (ACCOUNT, TRANS_NAME, TRANS_DATE, AMOUNT, FLAG) VALUES (\'' + account_+ '\', \'ATM_WITHDRAW\', \'' + date + '\', \'-' + amount_+'\', \'0\');';
+      // console.log(query4);
+      db.exec(query4, function(err){
         console.log(err);
-        console.log(row);
       });
     });
 });
 
+app.post('/api/deposit', (req, res) =>{
+  var account_ = req.body.account;
+  var amount_ = req.body.amount;
+  var date = moment().format('LLL');  // July 31, 2018 12:51 AM
+  // console.log(req);
+   // console.log(account_ + ' ' + amount_);
+    db.serialize(function(){
+      var query5 = 'UPDATE ACCOUNTS SET BALANCE = BALANCE + ' + amount_ + ' WHERE CUST_ACCT_NO = "' + account_+ '"; '+
+        'INSERT INTO TRANSACTIONS (ACCOUNT, TRANS_NAME, TRANS_DATE, AMOUNT, FLAG) VALUES (\'' + account_+ '\', \'ATM_DEPOSIT\', \'' + date + '\', \'' + amount_+'\', \'0\');';
+      // console.log(query5);
+      db.exec(query5, function(err){
+        console.log(err);
+      });
+    });
+});
+
+app.post('/api/transfer', (req, res) =>{
+  var account_from = req.body.accountFrom;
+  var account_to = req.body.accountTo;
+  var amount_ = req.body.amount;
+
+  var date = moment().format('LLL');  // July 31, 2018 12:51 AM
+  // console.log(req);
+   // console.log(account_from + ' ' + account_to + ' ' + amount_);
+    db.serialize(function(){
+      var query4 = 'UPDATE ACCOUNTS SET BALANCE = BALANCE - ' + amount_ + ' WHERE CUST_ACCT_NO = "' + account_from+ '"; '+
+        'INSERT INTO TRANSACTIONS (ACCOUNT, TRANS_NAME, TRANS_DATE, AMOUNT, FLAG) VALUES (\'' + account_from+ '\', \'ATM_WITHDRAW\', \'' + date + '\', \'-' + amount_+'\', \'0\');';
+      var query5 = 'UPDATE ACCOUNTS SET BALANCE = BALANCE + ' + amount_ + ' WHERE CUST_ACCT_NO = "' + account_to + '"; '+
+        'INSERT INTO TRANSACTIONS (ACCOUNT, TRANS_NAME, TRANS_DATE, AMOUNT, FLAG) VALUES (\'' + account_to + '\', \'ATM_DEPOSIT\', \'' + date + '\', \'' + amount_ +'\', \'0\');';
+      //console.log(query5);
+      var query7 = query4 + query5;
+      // console.log(query7);
+      db.exec(query7, function(err){
+        console.log(err);
+      });
+    });
+});
+
+app.get('/api/view', (req, res) =>{
+  console.log(req);
+  var name = req.query.username;
+  var acct = req.query.useraccount;
+  var type = req.query.usertype;
+
+  console.log()
+  infoCallback(name, acct);
+
+  function infoCallback(name, acct){
+    db.serialize(function(){
+      let query2 = 'select distinct CUST_ACCT_NO, BALANCE from USERS, ACCOUNTS, TRANSACTIONS  where USERS.NAME="'+ name +'" and ACCOUNTS.ACCOUNT='+ acct +';';
+      console.log(query2);
+      db.all(query2, function (err, records){
+      transactionCallback(name, acct, records);
+      });
+    });
+  }
+
+  function transactionCallback(name, acct, records){
+    db.serialize(function(){
+      let query3 = 'select CUST_ACCT_NO, TRANS_NAME, TRANS_DATE, AMOUNT from USERS, ACCOUNTS, TRANSACTIONS  where USERS.NAME="'+name+'" and ACCOUNTS.ACCOUNT='+acct+' and ACCOUNTS.CUST_ACCT_NO=TRANSACTIONS.ACCOUNT;';
+      db.all(query3, function (err, history){
+        successfulCallback(name, acct, records, history);
+      });
+    });
+  }
+  function successfulCallback(name, acct, records, history){
+    res.send({name, acct, records, history});
+  }
+});
 
 app.listen(3000, () => console.log('Listening on port 3000'));
-
-
-// select * from USERS, ACCOUNTS  where USERS.NAME="WonderWoman" and USERS.PIN_NO="1111" and ACCOUNTS.ACCOUNT=1111;
-// this pulls basic info we can use
-// select distinct ACCT_NO, NAME, CUST_ACCT_NO, BALANCE from USERS, ACCOUNTS, TRANSACTIONS  where USERS.NAME="WonderWoman" and ACCOUNTS.ACCOUNT=1111;
-// this pulls transactions making sure it's from the same username
-// select CUST_ACCT_NO, TRANS_NAME, TRANS_DATE, AMOUNT from USERS, ACCOUNTS, TRANSACTIONS  where USERS.NAME="WonderWoman" and ACCOUNTS.ACCOUNT=1111 and ACCOUNTS.CUST_ACCT_NO=TRANSACTIONS.ACCOUNT;

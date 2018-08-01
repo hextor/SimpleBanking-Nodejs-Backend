@@ -23,30 +23,30 @@ function viewSelect(records){
   for(var i = 0; i < records.length; i++){
     if(i == 0){
       $("#selectWithdrawAccount").append(
-        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking</option>"
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking -- <p class='small'>$"+ records[i].BALANCE+"</p></option>"
       );
       $("#selectDepositAccount").append(
-        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking</option>"
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking -- <p class='small'>$"+ records[i].BALANCE+"</p></option>"
       );
       $("#selectPullAccount").append(
-        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking</option>"
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking -- <p class='small'>$"+ records[i].BALANCE+"</p></option>"
       );
       $("#selectPushAccount").append(
-        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking</option>"
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Checking -- <p class='small'>$"+ records[i].BALANCE+"</p></option>"
       );
     }
     else{
       $("#selectWithdrawAccount").append(
-        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +"</option>"
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +" -- <p class='small'>$"+ records[i].BALANCE+"</p></option>"
       );
       $("#selectDepositAccount").append(
-        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +"</option>"
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +" -- <p class='small'>$"+ records[i].BALANCE+"</p></option>"
       );
       $("#selectPullAccount").append(
-        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +"</option>"
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +" -- <p class='small'>$"+ records[i].BALANCE+"</p></option>"
       );
       $("#selectPushAccount").append(
-        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +"</option>"
+        "<option value='"+records[i].CUST_ACCT_NO+"'>Savings "+ i +" -- <p class='small'>$"+ records[i].BALANCE+"</p></option>"
       );
     }
   }
@@ -56,10 +56,10 @@ function viewHistory(history){
   for(var i = history.length - 1; i > -1; i--){
     $("#historyList").append(
     "<div class='row'>" +
-    "<div class='col-md-2'>" + history[i].CUST_ACCT_NO + "</div>" +
-    "<div class='col-md-4'>" + history[i].TRANS_NAME + "</div>" +
-    "<div class='col-md-3'>" + history[i].TRANS_DATE + "</div>" +
-    "<div class='col-md-3'>" + history[i].AMOUNT + "$</div>" +
+    "<div class='col-md-2'><p>" + history[i].CUST_ACCT_NO + "</p></div>" +
+    "<div class='col-md-4'><p>" + history[i].TRANS_NAME + "</p></div>" +
+    "<div class='col-md-3'><p>" + history[i].TRANS_DATE + "</p></div>" +
+    "<div class='col-md-2'><p>$\t" + history[i].AMOUNT + "</p></div>" +
     "</div><hr/>"
     );
   }
@@ -105,7 +105,7 @@ function getInfo(){
       }
       else{
         usracct = res.acct;
-        // console.log(res);
+        console.log(res);
         viewSelect(res.records);
         viewHistory(res.history);
         viewBalance(res.records);

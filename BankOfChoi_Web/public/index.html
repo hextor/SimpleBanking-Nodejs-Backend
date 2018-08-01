@@ -7,6 +7,8 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
     <link rel="stylesheet" href="css/styles.css"/>
 
     <title>Bank of Choi</title>
@@ -68,8 +70,9 @@
             <select class="form-control" id="selectWithdrawAccount">
                   <!-- populated by viewSelect() -->
               </select>
+            <br/>
             <p class="lead">How much would you like to withdraw</p>
-            <input class="form-control" type="text" id="withdrawAmount">
+            <input class="form-control" type="text" id="withdrawAmount" placeholder="$">
             <p class="small text-danger" id="danger-withdraw">* Please enter a positive value</p>
             <br/>
             <div class="text-center">
@@ -91,9 +94,11 @@
             <select class="form-control" id="selectDepositAccount">
                 <!-- populated by viewSelect() -->
               </select>
+              <br/>
             <p class="lead">How much would you like to withdraw:</p>
-            <input type="text" class="form-control" id="depositAmount">
+            <input type="text" class="form-control" id="depositAmount" placeholder="$">
             <p class="small text-danger" id="danger-deposit">* Please enter a positive value</p>
+            <br/>
             <div class="text-center">
               <input type="button" class="btn btn-primary" value="Deposit Amount" onclick="deposit()">
             </div>
@@ -109,7 +114,17 @@
                 <p id="messageBox" class="display-4">Check Balances</p>
               </div>
               <div class="card-body">
-                <p class="lead">This is your current balance</p>
+                <div class="row">
+                  <div class="col-lg-4">
+                    <p class="lead">Account Type</p>
+                  </div>
+                  <div class="col-lg-4">
+                    <p class="lead">Account Number</p>
+                  </div>
+                  <div class="col-lg-4">
+                    <p class="lead">Current Balance</p>
+                  </div>
+                </div>
                 <div id="viewBalance">
                   <!-- populated by viewBalance() -->
                 </div>
@@ -129,13 +144,15 @@
                 <select class="form-control" id="selectPullAccount">
                     <!-- populated by viewSelect() -->
                   </select>
+                  <br/>
                 <p class="lead">To:</p>
                 <select class="form-control" id="selectPushAccount">
                     <!-- populated by viewSelect() -->
                 </select>
                 <p class="small text-danger" id="danger-transfer-account">* Can not transfer money to the same account </p>
+                <br/>
                 <p class="lead">How much would you like to transfer?</p>
-                <input type="text" class="form-control" id="transferAmount">
+                <input type="text" class="form-control" id="transferAmount" placeholder="$">
                 <p class="small text-danger" id="danger-transfer-amount">* Please enter a positive value </p>
                 <br/>
                   <div class="text-center">
@@ -153,7 +170,22 @@
                 <p id="messageBox" class="display-4">Transaction History</p>
               </div>
               <div class="card-body">
-                  <div class="container-fluid" id="historyList">
+                  <div class="container-fluid row text-center">
+                    <div class="col-md-2">
+                      <p class="lead">Account</p>
+                    </div>
+                    <div class="col-md-4">
+                      <p class="lead">Transaction Name</p>
+                    </div>
+                    <div class="col-md-3">
+                      <p class="lead">Transaction Date</p>
+                    </div>
+                    <div class="col-md-3">
+                      <p class="lead">Amount</p>
+                    </div>
+                  </div>
+                  <div class="container-fluid text-center" id="historyList">
+                    <hr/>
                     <!-- populated by viewHistory() -->
                   </div>
                 </div>

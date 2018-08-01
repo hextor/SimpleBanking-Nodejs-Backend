@@ -121,9 +121,9 @@ app.post('/api/transfer', (req, res) =>{
    // console.log(account_from + ' ' + account_to + ' ' + amount_);
     db.serialize(function(){
       var query4 = 'UPDATE ACCOUNTS SET BALANCE = BALANCE - ' + amount_ + ' WHERE CUST_ACCT_NO = "' + account_from+ '"; '+
-        'INSERT INTO TRANSACTIONS (ACCOUNT, TRANS_NAME, TRANS_DATE, AMOUNT, FLAG) VALUES (\'' + account_from+ '\', \'ATM_WITHDRAW\', \'' + date + '\', \'-' + amount_+'\', \'0\');';
+        'INSERT INTO TRANSACTIONS (ACCOUNT, TRANS_NAME, TRANS_DATE, AMOUNT, FLAG) VALUES (\'' + account_from+ '\', \'ATM_TRANSFER_DEDUCT\', \'' + date + '\', \'-' + amount_+'\', \'0\');';
       var query5 = 'UPDATE ACCOUNTS SET BALANCE = BALANCE + ' + amount_ + ' WHERE CUST_ACCT_NO = "' + account_to + '"; '+
-        'INSERT INTO TRANSACTIONS (ACCOUNT, TRANS_NAME, TRANS_DATE, AMOUNT, FLAG) VALUES (\'' + account_to + '\', \'ATM_DEPOSIT\', \'' + date + '\', \'' + amount_ +'\', \'0\');';
+        'INSERT INTO TRANSACTIONS (ACCOUNT, TRANS_NAME, TRANS_DATE, AMOUNT, FLAG) VALUES (\'' + account_to + '\', \'ATM_TRANSFER_DEPOSIT\', \'' + date + '\', \'' + amount_ +'\', \'0\');';
       //console.log(query5);
       var query7 = query4 + query5;
       // console.log(query7);
